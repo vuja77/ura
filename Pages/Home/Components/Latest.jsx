@@ -1,4 +1,4 @@
-import { ImageBackground, Text, TouchableOpacity } from "react-native";
+import { ImageBackground, Text, TouchableOpacity, View } from "react-native";
 import { Dimensions } from "react-native";
 export default function Latest({
   title,
@@ -49,22 +49,26 @@ export default function Latest({
             alignItems: "center",
           }}
         >
+          <View style={{position: "absolute",
+              top: 20,
+              left: 15,
+              overflow: "hidden",
+              borderRadius: 20,
+
+              }}>
           <Text
             style={{
               textAlign: "center",
-              borderRadius: 20,
               backgroundColor: "#0b2131",
               color: "white",
               padding: 6,
               fontSize: 10,
               paddingHorizontal: 10,
-              position: "absolute",
-              top: 20,
-              left: 15,
+              
             }}
           >
             {category}
-          </Text>
+          </Text></View>
           <Text
             numberOfLines={3}
             style={{

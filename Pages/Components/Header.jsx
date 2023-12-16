@@ -24,15 +24,12 @@ export default function Header({ title }) {
         justifyContent: "space-between",
         backgroundColor: "white",
         alignItems: "center",
-        paddingBottom: 10,
-        paddingTop: 10,
-        borderBottomEndRadius: 0,
-        borderBottomStartRadius: 0,
-        padding: 25,
         borderBottomColor: "gray",
         borderBottomWidth: 0.5,
+        paddingStart: 15,
         width: "100%",
         zIndex: 330,
+        paddingHorizontal: 15
       }}
     >
       <TouchableOpacity
@@ -59,7 +56,6 @@ export default function Header({ title }) {
         onPress={() => navigation.goBack()}
         style={{ marginRight: 0 }}
       >
-        <Icon name="angle-left" color="#0f2346" size={0}></Icon>
       </TouchableOpacity>
     </SafeAreaView>
   );

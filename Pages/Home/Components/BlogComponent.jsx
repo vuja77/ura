@@ -64,10 +64,12 @@ export default function BlogComponent({
           <View
             style={{ flexDirection: "row", justifyContent: "space-between" }}
           >
-            <Text
+            <View style={{borderRadius: 20, overflow: "hidden"}}>           
+              <Text
               style={{
                 textAlign: "center",
                 borderRadius: 20,
+                borderBottomEndRadius: 20,
                 backgroundColor: "#0F2346",
                 color: "white",
                 padding: 6,
@@ -75,8 +77,9 @@ export default function BlogComponent({
                 paddingHorizontal: 10,
               }}
             >
+ 
               {category}
-            </Text>
+            </Text></View>
             <Text
               style={{
                 textAlign: "center",

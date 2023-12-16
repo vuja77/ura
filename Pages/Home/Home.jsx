@@ -100,7 +100,7 @@ export default function Home({ navigation }) {
           paddingBottom: 20,
           gap: 20,
           borderRadius: 10,
-          height: Dimensions.get("window").height * 1.39,
+          height: Dimensions.get("window").height * 1.25,
         }}
       >
         <View
@@ -200,6 +200,7 @@ export default function Home({ navigation }) {
                   <Text
                     style={[
                       {
+                        overflow: "hidden",
                         textAlign: "center",
                         borderRadius: 20,
                         backgroundColor: "white",

@@ -78,7 +78,7 @@ export default function Category({ navigation, category, scrolla }) {
   return (
     <View>
       <FlatList
-        nestedScrollEnabled={scrolla}
+        scrollEnabled={scrolla}
         data={
           BlogsCategories && category === "Novo"
             ? BlogsCategories.slice(4)

@@ -131,10 +131,12 @@ function Pristupnica({ navigation, userData }) {
       <Header></Header>
       <SafeAreaView
         style={{
-          padding: 15,
           backgroundColor: "white",
           gap: 15,
+          marginTop: 15,
           alignItems: "center",
+          paddingStart: 15,
+          paddingEnd: 15,
           justifyContent: "space-between",
           flex: 1,
         }}
@@ -167,9 +169,10 @@ function Pristupnica({ navigation, userData }) {
               alignSelf: "flex-end",
             }}
           >
-            {koraciData.map((e) => {
+            {koraciData.map((e, index) => {
               return (
                 <TouchableOpacity
+                key={index}
                   style={[
                     {
                       backgroundColor: "#cdeaff",

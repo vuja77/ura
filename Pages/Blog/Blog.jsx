@@ -12,7 +12,6 @@ import {
   StatusBar,
 } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome5";
-import { BlurView } from "expo-blur";
 import { useRef, useState, useEffect } from "react";
 import RenderHtml from "react-native-render-html";
 import { useWindowDimensions } from "react-native";
@@ -20,6 +19,7 @@ import axios from "axios";
 import Config from "../../Config";
 import { useRoute } from "@react-navigation/native";
 import { Video, ResizeMode } from "expo-av";
+import Colors from "../../Colors";
 export default function Blog({ navigation }) {
   const route = useRoute();
   const video = useRef(null);
@@ -34,23 +34,24 @@ export default function Blog({ navigation }) {
     ScrollRef.current.scrollTo({ y: 200, animated: true });
   }, [1]);
   const HandleScroll = (e) => {
-    if (e.nativeEvent.contentOffset.y > 350) {
+    if (e.nativeEvent.contentOffset.y > 300) {
       ScrollRef.current.scrollToEnd({ animated: true });
       setBackBtn(true);
     } else if (
       e.nativeEvent.contentOffset.y < 350 &&
       e.nativeEvent.contentOffset.y > 100
     ) {
-      ScrollRef.current.scrollTo({ y: 200, animated: true });
+      ScrollRef.current.scrollTo({ y: 400, animated: true });
       setBackBtn(false);
     }
-    if (e.nativeEvent.contentOffset.y < 100) {
+    if (e.nativeEvent.contentOffset.y < 0) {
       navigation.navigate("Home");
     }
   };
   const [ScrollValue, setScrollValue] = useState(200);
 
   const HandleScroll2 = (e) => {
+    console.log(e.nativeEvent.contentOffset.y)
     if (
       e.nativeEvent.contentOffset.y < 200 &&
       e.nativeEvent.contentOffset.y > 50
@@ -78,7 +79,6 @@ export default function Blog({ navigation }) {
           console.log("shared");
         }
       } else if (result.action === Share.dismissedAction) {
-        console.log("ne radi");
       }
     } catch {}
   };
@@ -112,8 +112,10 @@ export default function Blog({ navigation }) {
       width: Dimensions.get("window").width - 50,
     },
   };
+
   return (
-    <>
+    <SafeAreaView>
+       <StatusBar backgroundColor={Colors.primary}></StatusBar>
       {fileType === 1 ? (
         <Image
           style={[
@@ -142,9 +144,9 @@ export default function Blog({ navigation }) {
       <ScrollView
         ref={ScrollRef}
         contentContainerStyle={{}}
-        onResponderMove={() => console.log("end")}
         onScroll={(e) => HandleScroll2(e)}
         onScrollEndDrag={(e) => HandleScroll(e)}
+        
       >
         {fileType === 2 ? (
           <TouchableOpacity
@@ -181,11 +183,14 @@ export default function Blog({ navigation }) {
         >
           <View style={styles.touchBar}></View>
           <ScrollView
-            nestedScrollEnabled={ScrollEnabled}
+            scrollEnabled={ScrollEnabled}
+            horizontal={false}
+            pinchGestureEnabled={false}
             contentContainerStyle={{
               alignItems: "center",
               padding: 15,
               gap: 10,
+              flexGrow: 1,
             }}
           >
             <View
@@ -196,10 +201,10 @@ export default function Blog({ navigation }) {
                 alignItems: "center",
               }}
             >
+              <View style={{overflow: "hidden", borderRadius: 20,}}>
               <Text
                 style={{
                   textAlign: "center",
-                  borderRadius: 20,
                   backgroundColor: "#0b2131",
                   color: "white",
                   padding: 6,
@@ -208,7 +213,7 @@ export default function Blog({ navigation }) {
                 }}
               >
                 {category}
-              </Text>
+              </Text></View>
 
               <Text style={{ color: "#A1A1A0" }}>{publishDate}</Text>
             </View>
@@ -233,7 +238,7 @@ export default function Blog({ navigation }) {
       <View
         style={{
           position: "absolute",
-          top: 0,
+          top: "5%",
           padding: 10,
           flexDirection: "row",
           width: "100%",
@@ -273,7 +278,7 @@ export default function Blog({ navigation }) {
           </>
         )}
       </View>
-    </>
+    </SafeAreaView>
   );
 }
 
@@ -309,9 +314,9 @@ const styles = StyleSheet.create({
     zIndex: 99,
     backgroundColor: "white",
     width: "100%",
-    maxHeight: Dimensions.get("window").height,
+    maxHeight: Dimensions.get("window").height-100,
     minHeight: Dimensions.get("window").height - 20,
-    marginTop: Dimensions.get("window").height - 300,
+    marginTop: Dimensions.get("window").height - 500,
     alignItems: "center",
     paddingTop: 30,
     gap: 20,
