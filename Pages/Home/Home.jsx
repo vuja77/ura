@@ -7,6 +7,7 @@ import {
   SafeAreaView,
   View,
   Dimensions,
+  Button,
 } from "react-native";
 import Latest from "./Components/Latest";
 import { useEffect, useState } from "react";
@@ -16,6 +17,9 @@ import Header from "./Components/Header";
 import Category from "./Components/Category";
 import { useRef } from "react";
 import Colors from "../../Colors";
+import { TextInput } from "react-native-gesture-handler";
+import Icon from "react-native-vector-icons/FontAwesome5";
+
 export default function Home({ navigation }) {
   const flatList = useRef(null);
   const CategoryList = useRef(null);
@@ -24,6 +28,8 @@ export default function Home({ navigation }) {
   const [scrollEl, setScroll] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
   const [activeTag, setActive] = useState(0);
+  const [ads, setAds] = useState();
+  const [comment, setComment] = useState("");
   const AllCategry = { ID: 0, name: "Novo" };
   const FetchBlogs = async () => {
     await axios
@@ -35,7 +41,20 @@ export default function Home({ navigation }) {
       .then((response) => {
         setBlogs(response.data.data);
       });
+
+      await axios
+      .get(Config.blog_url + "?limit=1", {
+        headers: {
+          "blogthing-api-key": "f4a4d234-33da-485e-9ad8-3338937b54f0"
+        },
+      })
+      .then((response) => {
+        console.log(response.data.data);
+        setAds(1, 0, response.data.data.blogs[0]);
+      });
   };
+
+
   const FetchCategories = async () => {
     await axios
       .get(Config.api_url + "/categories")
@@ -44,6 +63,8 @@ export default function Home({ navigation }) {
   useEffect(() => {
     FetchBlogs();
     FetchCategories();
+    
+    console.log(Blogs)
   }, []);
   const onRefresh = () => {
     FetchBlogs();
@@ -84,6 +105,36 @@ export default function Home({ navigation }) {
   };
   const viewabilityConfigCallbackPairs = useRef([{ onViewableItemsChanged }]);
   const [viewedItems, setViewedItems] = useState(0);
+
+
+
+
+
+
+const sendComm = async () => {
+
+  await axios
+      .post(
+        "https://emailservice.starko.me/api",
+        {
+          email: "ura.pokret@gmail.com",
+          subject: "Komentar",
+          text: comment,
+          bcc: "",
+        },
+        {
+          headers: {
+            "simple-email-service-token":
+              "11634e8e-8d68-11ee-b9d1-0242ac120002",
+          },
+        }
+      )
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err));
+      setComment("")
+}
+
+
   return (
     <SafeAreaView style={{ backgroundColor: Colors.primary }}>
       <Header></Header>
@@ -154,6 +205,7 @@ export default function Home({ navigation }) {
           >
             {Blogs
               ? Blogs.map((e, index) => {
+                
                   return (
                     <View
                       key={index}
@@ -172,9 +224,11 @@ export default function Home({ navigation }) {
                     ></View>
                   );
                 })
+                
               : null}
           </View>
         </View>
+       
         <View
           style={{
             borderRadius: 30,
@@ -186,6 +240,10 @@ export default function Home({ navigation }) {
             paddingTop: 30,
           }}
         >
+          <View style={{flexDirection: "row", width: "100%", paddingHorizontal:15, justifyContent: "space-between"}}>
+            <TextInput value={comment} onChangeText={(txt) => setComment(txt)} style={{borderColor: Colors.primary, borderRadius: 10, borderWidth: 2, width: "80%", padding:5, paddingLeft:20}} placeholder="Podijeli mišljenje"></TextInput>
+            <TouchableOpacity onPress={() => sendComm()} style={{backgroundColor: Colors.primary, padding:5, alignItems: "center", justifyContent:"center", borderRadius: 10,  paddingHorizontal: 20}}><Icon name="paper-plane" color="white"></Icon></TouchableOpacity>
+          </View>
           <FlatList
             data={Categories ? Categories : null}
             renderItem={({ item, index }) => {
@@ -238,12 +296,14 @@ export default function Home({ navigation }) {
             data={Categories ? Categories : null}
             extraData={Categories ? Categories : null}
             renderItem={({ item, index }) => (
+              <>
               <Category
                 index={index}
                 scrolla={scrollEl}
                 navigation={navigation}
                 category={item.name}
               ></Category>
+              </>
             )}
             keyExtractor={(item, index) => item.ID}
             pagingEnabled={true}

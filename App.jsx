@@ -11,6 +11,7 @@ import { Provider } from "react-redux";
 import store from "./Store/ConfigureStore";
 import Drawer from "./Pages/Drawer";
 import Colors from "./Colors";
+import Predsjenistvo from "./Pages/Presjednistvo/Predsjednistvo";
 export default function App() {
   const Stack = createStackNavigator();
   PushNotification();
@@ -56,6 +57,11 @@ export default function App() {
             <Stack.Screen
               name="Odbor"
               component={Odbor}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="Predsjednistvo"
+              component={Predsjenistvo}
               options={{ headerShown: false }}
             />
             <Stack.Screen

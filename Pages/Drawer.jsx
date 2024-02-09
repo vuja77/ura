@@ -6,6 +6,7 @@ import Odbor from "./Odbor/Odbor";
 import "react-native-gesture-handler";
 import Icon from "react-native-vector-icons/FontAwesome5";
 import Colors from "../Colors";
+import Predsjenistvo from "./Presjednistvo/Predsjednistvo";
 export default function DrawerScreen() {
   const Drawer = createDrawerNavigator();
 
@@ -45,6 +46,17 @@ export default function DrawerScreen() {
       <Drawer.Screen
         name="Opštinski odbori"
         component={Odbor}
+        options={{
+          headerShown: false,
+          headerTitleAlign: "center",
+          drawerIcon: ({ color, size }) => (
+            <Icon name="users" color={color} size={17} />
+          ),
+        }}
+      />
+      <Drawer.Screen
+        name="Predsjedništvo"
+        component={Predsjenistvo}
         options={{
           headerShown: false,
           headerTitleAlign: "center",

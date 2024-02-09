@@ -19,7 +19,7 @@ function Pristupnica({ navigation, userData }) {
   const nextStep = () => {
     if (userData.mail !== undefined && userData.name_surname !== undefined) {
       if (
-        userData.name_surname.length > 6 &&
+        userData.name_surname.length >= 3 &&
         emailRegex.test(userData.mail) &&
         korak === 1
       ) {
@@ -68,7 +68,7 @@ function Pristupnica({ navigation, userData }) {
 
         console.log("d");
       }
-      if (userData.name_surname.length < 6) {
+      if (userData.name_surname.length < 3 ) {
         console.log("b");
         newError.push("name_surname");
       } else {
@@ -167,9 +167,10 @@ function Pristupnica({ navigation, userData }) {
               alignSelf: "flex-end",
             }}
           >
-            {koraciData.map((e) => {
+            {koraciData.map((e, index) => {
               return (
                 <TouchableOpacity
+                  key={index}
                   style={[
                     {
                       backgroundColor: "#cdeaff",

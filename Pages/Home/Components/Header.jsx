@@ -52,7 +52,7 @@ export default function Header() {
           }}
         >
           <Text style={{ color: "white", fontSize: 10, fontWeight: "500" }}>
-            Pridruži se
+            Postani član
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
